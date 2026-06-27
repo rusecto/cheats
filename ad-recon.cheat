@@ -1,16 +1,16 @@
 % Active Directory, PowerView, BloodHound, Windows
 
-# Retrieve basic forest and domain details via .NET LDAP bindings [T1482]
+# Retrieve basic forest and domain details via .NET LDAP bindings [T1482 - Domain Information Discovery]
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
 
-# Trace all Service Principal Names (SPN) for Kerberoasting [T1087.002]
+# Trace all Service Principal Names (SPN) for Kerberoasting [T1087.002 - Account Discovery:Domain Account]
 Get-DomainUser -SPN | Select-Object samaccountname, serviceprincipalname
 
-# Audit domain accounts configuration for Kerberos pre-authentication disabled (AS-REP Roasting) [T1087.002]
+# Audit domain accounts configuration for Kerberos pre-authentication disabled (AS-REP Roasting) [T1087.002 - Account Discovery:Domain Account]
 Get-DomainUser -PreauthNotRequired -Verbose
 
-# Collect AD details for BloodHound ingest using SharpHound collector [T1046]
+# Collect AD details for BloodHound ingest using SharpHound collector [T1482 - Domain Information Discovery]
 ./SharpHound.exe --CollectionMethods All --Domain <domain_name> --ExcludeComputers
 
-# Resolve DACL controls over Domain Admin group [T1482]
+# Resolve DACL controls over Domain Admin group [T1482 - Domain Information Discovery]
 Get-DomainObjectAcl -Identity "Domain Admins" -ResolveGUIDs | Where-Object { $_.ActiveDirectoryRights -match "Write" }
