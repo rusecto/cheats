@@ -1,0 +1,4 @@
+% AppLocker
+
+# Get AppLocker Policy [T1518.001 - Security Software Discovery]
+Get-AppLockerPolicy
