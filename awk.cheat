@@ -1,0 +1,4 @@
+% Awk, Interactive Shell
+
+# Spawn Interactive Shell [T1059.004 - Execution Command and Scripting Interpreter:Unix Shell]
+awk 'BEGIN {system("/bin/sh")}'
