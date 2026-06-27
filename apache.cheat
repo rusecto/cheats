@@ -1,0 +1,4 @@
+% Apache
+
+# Enable Apache Re-Write Engine [T1090.002 - Command and Control:External Proxy]
+sudo a2enmod rewrite
