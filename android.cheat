@@ -1,0 +1,4 @@
+% Android
+
+# WiFi Credentials on Android [T1555 - Credentials from Password Sotres]
+cat /data/misc/wifi/wpa_supplicant.conf
